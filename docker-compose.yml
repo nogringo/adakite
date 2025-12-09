@@ -1,0 +1,11 @@
+services:
+  adakite:
+    build: .
+    container_name: adakite
+    restart: unless-stopped
+    env_file:
+      - .env
+    # Alternatively, set environment variables directly:
+    # environment:
+    #   - RELAYS_ONLINE_URL=http://localhost:8080/relays/online
+    #   - STORAGE_RELAYS=wss://nostr-01.uid.ovh,wss://nostr-02.uid.ovh

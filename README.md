@@ -1,0 +1,1 @@
+Adakite is an aggregator for nostr, it subscribe to every relays and store the new events where you want.
