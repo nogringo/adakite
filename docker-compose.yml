@@ -3,8 +3,6 @@ services:
     build: .
     container_name: adakite
     restart: unless-stopped
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
     env_file:
       - .env
     # Alternatively, set environment variables directly:

@@ -1,0 +1,7 @@
+services:
+  adakite:
+    image: ghcr.io/nogringo/adakite:latest
+    container_name: adakite
+    restart: unless-stopped
+    env_file:
+      - .env
