@@ -2,7 +2,7 @@ import 'package:adakite/utils/normalize_relay_url.dart';
 import 'package:dotenv/dotenv.dart';
 import 'package:ndk/ndk.dart';
 import 'package:ndk/shared/nips/nip01/bip340.dart';
-// import 'package:network_listener/api_service.dart';
+// import 'package:adakite/api_service.dart';
 import 'package:adakite/no_event_verifier.dart';
 import 'package:adakite/get_online_relays.dart';
 

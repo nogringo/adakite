@@ -13,7 +13,7 @@ RUN dart pub get
 COPY . .
 
 # Compile to native executable
-RUN dart compile exe bin/network_listener.dart -o bin/adakite
+RUN dart compile exe bin/adakite.dart -o bin/adakite
 
 # Runtime stage
 FROM debian:bookworm-slim
