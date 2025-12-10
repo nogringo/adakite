@@ -43,7 +43,6 @@ void main(List<String> arguments) async {
 
   sub.stream.listen((event) async {
     // if (!trustedAuthors.contains(event.pubKey)) return;
-    print("Broadcast");
     ndk.broadcast.broadcast(nostrEvent: event, specificRelays: storageRelays);
   });
 
