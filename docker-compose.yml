@@ -3,9 +3,11 @@ services:
     build: .
     container_name: adakite
     restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     env_file:
       - .env
     # Alternatively, set environment variables directly:
     # environment:
-    #   - RELAYS_ONLINE_URL=http://localhost:8080/relays/online
+    #   - RELAYS_ONLINE_URL=http://host.docker.internal:8080/relays/online
     #   - STORAGE_RELAYS=wss://nostr-01.uid.ovh,wss://nostr-02.uid.ovh

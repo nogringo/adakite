@@ -4,7 +4,7 @@ FROM dart:3.10 AS build
 WORKDIR /app
 
 # Copy pubspec files first for better caching
-COPY pubspec.yaml pubspec.lock ./
+COPY pubspec.yaml ./
 
 # Get dependencies
 RUN dart pub get

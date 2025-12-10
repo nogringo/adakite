@@ -1,10 +1,10 @@
+import 'package:adakite/utils/normalize_relay_url.dart';
 import 'package:dotenv/dotenv.dart';
 import 'package:ndk/ndk.dart';
 import 'package:ndk/shared/nips/nip01/bip340.dart';
 // import 'package:network_listener/api_service.dart';
-import 'package:network_listener/no_event_verifier.dart';
-import 'package:network_listener/relay.dart';
-import 'package:network_listener/url.dart';
+import 'package:adakite/no_event_verifier.dart';
+import 'package:adakite/get_online_relays.dart';
 
 void main(List<String> arguments) async {
   final env = DotEnv()..load();
@@ -14,20 +14,8 @@ void main(List<String> arguments) async {
       .map((e) => e.trim())
       .toList();
 
-  // final apiService = ApiService(baseUrl: 'http://localhost:3001/api');
-
-  List<String> sourceRelays = await getNetworkRelays();
-  for (var relay in storageRelays) {
-    sourceRelays.remove(normalizeUrl(relay));
-  }
-
-  // List<String> trustedAuthors = await apiService.getTrustedAuthors(maxHops: 10);
-
   final ndk = Ndk(
-    NdkConfig(
-      eventVerifier: NoEventVerifier(),
-      cache: MemCacheManager(),
-    ),
+    NdkConfig(eventVerifier: NoEventVerifier(), cache: MemCacheManager(), logLevel: LogLevel.off),
   );
 
   final keyPair = Bip340.generatePrivateKey();
@@ -36,6 +24,18 @@ void main(List<String> arguments) async {
     privkey: keyPair.privateKey!,
   );
 
+  // final apiService = ApiService(baseUrl: 'http://localhost:3001/api');
+
+  List<String> sourceRelays = await getOnlineRelays(
+    ndk: ndk,
+    sourceRelays: storageRelays,
+  );
+  for (var relay in storageRelays) {
+    sourceRelays.remove(normalizeRelayUrl(relay));
+  }
+
+  // List<String> trustedAuthors = await apiService.getTrustedAuthors(maxHops: 10);
+
   final sub = ndk.requests.subscription(
     filters: [Filter(limit: 0)],
     explicitRelays: sourceRelays,
@@ -43,7 +43,9 @@ void main(List<String> arguments) async {
 
   sub.stream.listen((event) async {
     // if (!trustedAuthors.contains(event.pubKey)) return;
-    // print(event.sources);
+    print("Broadcast");
     ndk.broadcast.broadcast(nostrEvent: event, specificRelays: storageRelays);
   });
+
+  print("Running");
 }
